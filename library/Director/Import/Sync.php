@@ -402,6 +402,8 @@ class Sync
         foreach ($this->sources as $source) {
             $sourceId = $source->id;
 
+	    file_put_contents("/tmp/director-debug.out", "this->imported[]: " .join(", ", array_keys($this->imported[$sourceId])) . "\n", FILE_APPEND);
+
             foreach ($this->imported[$sourceId] as $key => $row) {
                 $newProps = array();
 
@@ -505,6 +507,12 @@ class Sync
 
         // TODO: directly work on existing objects, remember imported keys, then purge
         $newObjects = $this->prepareNewObjects();
+/*
+	ob_start();
+	var_dump($this->objects);
+	file_put_contents("/tmp/director-debug.out", ob_get_clean(), FILE_APPEND);
+*/
+	file_put_contents("/tmp/director-debug.out", "this->objects: " .join(", ", array_keys($this->objects)) . "\n", FILE_APPEND);
 
         foreach ($newObjects as $key => $object) {
             if (array_key_exists($key, $this->objects)) {
